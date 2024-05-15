@@ -1,0 +1,8 @@
+[Unit]
+Description=Timer service unit
+
+[Service]
+Type=exec
+ExecStart=/etc/scripts/orange-data-parser.sh
+Restart=no
+
