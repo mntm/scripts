@@ -1,0 +1,21 @@
+SUBSYSTEM!="input", GOTO="xboxdrv_map_ucom_end"
+ENV{ID_VENDOR_ID}!="0810", ENV{ID_MODEL_ID}!="0001", GOTO="xboxdrv_map_ucom_end"
+ENV{DEVNAME}!="/dev/input/event[0-9]*", GOTO="xboxdrv_map_ucom_end"
+
+ACTION=="add", GOTO="xboxdrv_map_ucom_add"
+ACTION=="remove", GOTO="xboxdrv_map_ucom_remove"
+
+LABEL="xboxdrv_map_ucom_add"
+#RUN+="/usr/bin/xboxdrv --daemon --detach --pid-file /var/run/xboxdrv-0810-0001-event%n.pid -c /etc/scripts/udev/ucom/xboxdrv-map-ucom --evdev /dev/input/event%n"
+TAG+="systemd", ENV{SYSTEMD_WANTS}="xboxdrv-map-ucom-gamepad@%n.service"
+GOTO="xboxdrv_map_ucom_end"
+
+LABEL="xboxdrv_map_ucom_remove"
+#RUN+="/usr/bin/cat /var/run/xboxdrv-0810-0001-event%n.pid | /usr/bin/xargs kill"
+GOTO="xboxdrv_map_ucom_end"
+
+LABEL="xboxdrv_map_debug"
+
+ENV{ID_DEBUG_MSG}="DEVMAME"
+
+LABEL="xboxdrv_map_ucom_end"

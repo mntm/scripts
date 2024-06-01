@@ -1,0 +1,10 @@
+[Unit]
+Description=Xbox controller driver daemon
+Documentation=man:xboxdrv(1)
+BindsTo=dev-input-event%i.device
+After=dev-input-event%i.device
+
+[Service]
+Type=simple
+ExecStart=/etc/scripts/udev/ucom/xboxdrv-map-exec.sh %I-0810-0001 /etc/scripts/udev/ucom/xboxdrv-map-ucom
+
